@@ -17,10 +17,10 @@ namespace WebUI.Controllers
             return await Mediator.Send(command);
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Product>>> Get()
-        //{
-        //    return await Mediator.Send(new GetProductsQuery());
-        //}
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> Get()
+        {
+            return await Mediator.Send(new GetProductsQuery());
+        }
     }
 }

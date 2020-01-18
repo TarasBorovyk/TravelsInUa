@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Application.Products.Queries.GetProducts
 {
-    public class GetProductsQuery : IRequest<IEnumerable<Product>>
+    public class GetProductsQuery : IRequest<List<Product>>
     {
-        public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<Product>>
+        public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<Product>>
         {
             private readonly IApplicationDbContext _context;
 
@@ -21,7 +21,7 @@ namespace Application.Products.Queries.GetProducts
                 _context = context;
             }
 
-            public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+            public async Task<List<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
             {
                 return await _context.Products.ToListAsync();
             }
