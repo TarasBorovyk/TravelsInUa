@@ -5,13 +5,16 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7240EDBF-4061-4260-8505-5D0246A1C80D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{CB6D9EEA-4F01-4099-949C-5AA8A00B01B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{CB6D9EEA-4F01-4099-949C-5AA8A00B01B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{6F51BE0A-7D21-4FBB-A825-672B465244BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{6F51BE0A-7D21-4FBB-A825-672B465244BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{B08338AD-B31E-4653-9349-8C45D2B5B3AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{B08338AD-B31E-4653-9349-8C45D2B5B3AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{0E138001-E72D-45E4-85DA-90C68332663B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{0E138001-E72D-45E4-85DA-90C68332663B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B08338AD-B31E-4653-9349-8C45D2B5B3AF} = {B08338AD-B31E-4653-9349-8C45D2B5B3AF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
