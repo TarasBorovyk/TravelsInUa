@@ -23,7 +23,7 @@ namespace Application.Categories.Queries.GetCategories
 
             public async Task<List<Category>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
             {
-                return await _context.Categories.ToListAsync();
+                return await _context.Categories.Include(p => p.Products).ToListAsync();
             }
         }
     }

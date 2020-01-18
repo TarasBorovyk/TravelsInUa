@@ -16,6 +16,7 @@ namespace WebUI.Controllers
         {
             return await Mediator.Send(command);
         }
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> Get()
         {
             return await Mediator.Send(new GetCategoriesQuery());

@@ -23,7 +23,7 @@ namespace Application.Products.Queries.GetProducts
 
             public async Task<List<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
             {
-                return await _context.Products.ToListAsync();
+                return await _context.Products.Include(c => c.Category).ToListAsync();
             }
         }
     }

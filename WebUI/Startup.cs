@@ -3,9 +3,10 @@ using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using SwaggerOptions = WebUI.Options.SwaggerOptions;
 
 namespace WebUI
 {
@@ -24,9 +25,10 @@ namespace WebUI
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            services.AddSwaggerGen(x =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Clean Architecture API", Version = "v1" })
+                x.SwaggerDoc("v1", new OpenApiInfo { Title = "Clean Architecture API", Version = "v1" });
             });
         }
 
@@ -38,10 +40,15 @@ namespace WebUI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwaggerUi3(settings =>
+            var swaggerOptions = new SwaggerOptions();
+            
+            Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+
+            app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
+
+            app.UseSwaggerUI(option =>
             {
-                settings.Path = "/api";
-                settings.DocumentPath = "/api/specification.json";
+                option.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description);
             });
 
             app.UseRouting();
