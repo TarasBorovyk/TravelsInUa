@@ -14,18 +14,18 @@ namespace Application.Commands.User
         public string UserName { get; set; }
         public string Password { get; set; }
 
-        public class Handler : IRequestHandler<LoginUserCommand, AuthenticationResult>
+        public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, AuthenticationResult>
         {
             private readonly IUserManager _userManagerService;
 
-            public Handler(IUserManager userManagerService)
+            public LoginUserCommandHandler(IUserManager userManagerService)
             {
                 _userManagerService = userManagerService;
             }
 
             public async Task<AuthenticationResult> Handle(LoginUserCommand request, CancellationToken cancellationToken)
             {
-                return await _userManagerService.LoginUserAsync(request.UserName, request.Password);
+                return await _userManagerService.LoginUserAsync(request.UserName, request.Password).ConfigureAwait(true);
             }
         }
     }

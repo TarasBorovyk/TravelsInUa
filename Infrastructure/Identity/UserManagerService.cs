@@ -112,10 +112,32 @@ namespace Infrastructure.Identity
                     Errors = new[] { "User does not exists" }
                 };
             }
-            // TODO SignIn
-            var authResult = _signInManager.SignInAsync(user, false);
+
+            var authResult = await _signInManager.PasswordSignInAsync(user, Password, false, false);
+            if(!authResult.Succeeded)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "Unable to login" }
+                };
+            }
 
             return new AuthenticationResult { Success = true };
+        }
+
+        public async Task<AuthenticationResult> LogoutUserAsync()
+        {
+            await _signInManager.SignOutAsync();
+
+            return new AuthenticationResult { Success = true };
+        }
+
+        public async Task<UserVm> GetUserByNameAsync(string Name)
+        {
+            var user = await _userManager.FindByNameAsync(Name);
+            if (user != null)
+                return new UserVm { Email = user.Email, UserName = user.UserName, Password = user.PasswordHash };
+            return null;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Application.Commands.User
 
             public async Task<AuthenticationResult> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
             {
-                return await _userManagerService.DeleteUserAsync(request.Id);
+                return await _userManagerService.DeleteUserAsync(request.Id).ConfigureAwait(true);
             }
         }
     }

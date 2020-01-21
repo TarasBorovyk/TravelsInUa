@@ -14,18 +14,18 @@ namespace Application.Commands.User
         public string Id { get; set; }
         public UserVm UserVm { get; set; }
 
-        public class Handler : IRequestHandler<UpdateUserCommand, AuthenticationResult>
+        public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, AuthenticationResult>
         {
             private readonly IUserManager _userManagerService;
 
-            public Handler(IUserManager userManagerService)
+            public UpdateUserCommandHandler(IUserManager userManagerService)
             {
                 _userManagerService = userManagerService;
             }
 
             public async Task<AuthenticationResult> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
             {
-                return await _userManagerService.UpdateUserAsync(request.Id, request.UserVm);
+                return await _userManagerService.UpdateUserAsync(request.Id, request.UserVm).ConfigureAwait(true);
             }
         }
     }

@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Infrastructure.Persistance
 {
-    public static class DependencyInjection
+    public static class ServicesInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
