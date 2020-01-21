@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.User
 {
-    public class CreateUserCommand: IRequest<AuthenticationResult>
+    public class DeleteUserCommand : IRequest<AuthenticationResult>
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Id { get; set; }
 
-        public class Handler : IRequestHandler<CreateUserCommand, AuthenticationResult>
+        public class Handler : IRequestHandler<DeleteUserCommand, AuthenticationResult>
         {
             private readonly IUserManager _userManagerService;
 
@@ -23,9 +22,9 @@ namespace Application.Commands.User
                 _userManagerService = userManagerService;
             }
 
-            public async Task<AuthenticationResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+            public async Task<AuthenticationResult> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
             {
-                return await _userManagerService.LoginUserAsync(request.Email, request.Password);
+                return await _userManagerService.DeleteUserAsync(request.Id);
             }
         }
     }
