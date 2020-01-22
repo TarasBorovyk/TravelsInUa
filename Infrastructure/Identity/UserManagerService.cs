@@ -1,7 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
@@ -11,9 +13,10 @@ namespace Infrastructure.Identity
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserManagerService(UserManager<ApplicationUser> userManager)
+        public UserManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<AuthenticationResult> CreateUserAsync(string userName, string email, string password)
@@ -75,7 +78,7 @@ namespace Infrastructure.Identity
             return new AuthenticationResult { Success = true };
         }
 
-        public async Task<AuthenticationResult> UpdateUserAsync(string id, UserVm userVm)
+        public async Task<AuthenticationResult> UpdateUserAsync(string id, string UserName, string Email, string Password)
         {
             var user = await _userManager.FindByIdAsync(id);
             if(user == null)
@@ -85,10 +88,10 @@ namespace Infrastructure.Identity
                     Errors = new[] { "User does not exists" }
                 };
             }
-            user.UserName = userVm.UserName;
-            user.Email = userVm.Email;
+            user.UserName = UserName;
+            user.Email = Email;
 
-            var newPassword = _userManager.PasswordHasher.HashPassword(user, userVm.Password);
+            var newPassword = _userManager.PasswordHasher.HashPassword(user, Password);
             user.PasswordHash = newPassword;
 
             var result = await _userManager.UpdateAsync(user);
@@ -112,8 +115,8 @@ namespace Infrastructure.Identity
                     Errors = new[] { "User does not exists" }
                 };
             }
-
-            var authResult = await _signInManager.PasswordSignInAsync(user, Password, false, false);
+            var authResult = await _signInManager.CheckPasswordSignInAsync(user, Password, false);
+           
             if(!authResult.Succeeded)
             {
                 return new AuthenticationResult
@@ -121,6 +124,8 @@ namespace Infrastructure.Identity
                     Errors = new[] { "Unable to login" }
                 };
             }
+
+            await _signInManager.SignInAsync(user, false);
 
             return new AuthenticationResult { Success = true };
         }
@@ -136,7 +141,7 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByNameAsync(Name);
             if (user != null)
-                return new UserVm { Email = user.Email, UserName = user.UserName, Password = user.PasswordHash };
+                return new UserVm { Id = user.Id, Email = user.Email, UserName = user.UserName, Password = user.PasswordHash };
             return null;
         }
     }

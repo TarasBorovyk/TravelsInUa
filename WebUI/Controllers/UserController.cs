@@ -6,6 +6,7 @@ using Application.Commands.User;
 using Application.Queries.User;
 using Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace WebUI.Controllers
 {
@@ -57,7 +58,7 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [Route("Logout")]
-        public async Task<IActionResult> Logout([FromBody]LoginUserCommand command)
+        public async Task<IActionResult> Logout([FromBody]LogoutUserCommand command)
         {
             var result = await Mediator.Send(command);
 
@@ -67,10 +68,15 @@ namespace WebUI.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("Get/{UserName}")]
-        public async Task<UserVm> GetUserByName(string UserName)
+        public async Task<IActionResult> GetUserByName(string UserName)
         {
-            return await Mediator.Send(new GetUserByNameQuery() { UserName = UserName });
+            var result = await Mediator.Send(new GetUserByNameQuery() { UserName = UserName });
+
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
     }
 }

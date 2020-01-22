@@ -12,7 +12,7 @@ namespace Application.Common.Interfaces
         Task<AuthenticationResult> CreateUserAsync(string userName, string email, string password);
 
         Task<AuthenticationResult> DeleteUserAsync(string userId);
-        Task<AuthenticationResult> UpdateUserAsync(string id, UserVm userVm);
+        Task<AuthenticationResult> UpdateUserAsync(string id, string UserName, string Email, string Password);
         Task<AuthenticationResult> LoginUserAsync(string UserName, string Password);
         Task<AuthenticationResult> LogoutUserAsync();
         Task<UserVm> GetUserByNameAsync(string Name);
