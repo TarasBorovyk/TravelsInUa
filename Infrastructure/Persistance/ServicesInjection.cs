@@ -17,6 +17,7 @@ namespace Infrastructure.Persistance
         {
             services.AddHttpContextAccessor();
             services.AddScoped<IUserManager, UserManagerService>();
+            services.TryAddScoped<UserManager<ApplicationUser>>();
             services.TryAddScoped<SignInManager<ApplicationUser>>();
 
             services.AddAuthentication(options =>
@@ -41,6 +42,7 @@ namespace Infrastructure.Persistance
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
+                options.User.RequireUniqueEmail = true;
             });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
