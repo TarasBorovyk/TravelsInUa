@@ -14,5 +14,7 @@ namespace Infrastructure.Persistance
         {
         }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
     }
 }

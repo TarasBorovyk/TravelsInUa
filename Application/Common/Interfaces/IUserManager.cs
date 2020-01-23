@@ -15,6 +15,6 @@ namespace Application.Common.Interfaces
         Task<AuthenticationResult> UpdateUserAsync(string id, string UserName, string Email, string Password);
         Task<AuthenticationResult> LoginUserAsync(string UserName, string Password);
         Task<AuthenticationResult> LogoutUserAsync();
-        Task<UserVm> GetUserByNameAsync(string Name);
+        Task<UserDto> GetUserByNameAsync(string Name);
     }
 }

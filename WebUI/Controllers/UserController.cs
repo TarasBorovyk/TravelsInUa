@@ -24,13 +24,14 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [Route("Delete")]
         public async Task<IActionResult> Delete([FromBody]DeleteUserCommand command)
         {
             var result = await Mediator.Send(command);
 
             if (result.Success)
-                return Ok(result);
+                return NoContent();
             return BadRequest(result.Errors);
         }
 

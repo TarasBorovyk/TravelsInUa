@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Application.Queries.User
 {
-    public class GetUserByNameQuery: IRequest<UserVm>
+    public class GetUserByNameQuery: IRequest<UserDto>
     {
         public string UserName { get; set; }
 
-        public class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, UserVm>
+        public class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, UserDto>
         {
             private readonly IUserManager _userManager;
 
@@ -21,7 +21,7 @@ namespace Application.Queries.User
             {
                 _userManager = userManager;
             }
-            public async Task<UserVm> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
+            public async Task<UserDto> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
             {
                 return await _userManager.GetUserByNameAsync(request.UserName).ConfigureAwait(true);
             }

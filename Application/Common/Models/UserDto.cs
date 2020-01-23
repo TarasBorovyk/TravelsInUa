@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Application.Common.Models
 {
-    public class UserVm
+    public class UserDto
     {
         public string Id { get; set; }
         public string UserName { get; set; }
