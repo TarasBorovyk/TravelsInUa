@@ -21,21 +21,8 @@ namespace Infrastructure.Identity
 
         public async Task<AuthenticationResult> CreateUserAsync(string userName, string email, string password)
         {
-            /*var existingUser = await _userManager.FindByEmailAsync(email);
-
-            if (existingUser != null)
-            {
-                return new AuthenticationResult
-                {
-                    Errors = new[] { "User with this email address already exists" },
-                    Success = false
-                };
-            }*/
-
-            //var newUserId = Guid.NewGuid();
             var newUser = new ApplicationUser
             {
-                //Id = newUserId.ToString(),
                 Email = email,
                 UserName = userName
             };
