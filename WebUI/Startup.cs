@@ -29,6 +29,21 @@ namespace WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var jwtOptions = new JwtOptions();
+            Configuration.Bind(nameof(jwtOptions), jwtOptions);
+            services.AddSingleton(jwtOptions);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                RequireExpirationTime = false,
+                ValidateLifetime = true
+            };
+            services.AddSingleton(tokenValidationParameters);
+
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddControllers();

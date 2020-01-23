@@ -19,7 +19,7 @@ namespace WebUI.Controllers
             var result = await Mediator.Send(command);
 
             if (result.Success)
-                return Ok();
+                return Ok(result);
             return BadRequest(result.Errors);
         }
 
@@ -30,7 +30,7 @@ namespace WebUI.Controllers
             var result = await Mediator.Send(command);
 
             if (result.Success)
-                return Ok();
+                return Ok(result);
             return BadRequest(result.Errors);
         }
 
@@ -41,7 +41,7 @@ namespace WebUI.Controllers
             var result = await Mediator.Send(command);
 
             if (result.Success)
-                return Ok();
+                return Ok(result);
             return BadRequest(result.Errors);
         }
 
@@ -52,7 +52,7 @@ namespace WebUI.Controllers
             var result = await Mediator.Send(command);
 
             if (result.Success)
-                return Ok();
+                return Ok(result);
             return BadRequest(result.Errors);
         }
 
@@ -63,7 +63,7 @@ namespace WebUI.Controllers
             var result = await Mediator.Send(command);
 
             if (result.Success)
-                return Ok();
+                return Ok(result);
             return BadRequest(result.Errors);
         }
 
