@@ -1,7 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using Infrastructure.Options;
+using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
@@ -20,11 +23,11 @@ namespace Infrastructure.Identity
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtOptions _jwtOptions;
         private readonly TokenValidationParameters _tokenValidationParameters;
-        private readonly IApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public UserManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
                                   RoleManager<IdentityRole> rolemanager, JwtOptions jwtOptions,
-                                  IApplicationDbContext context, TokenValidationParameters tokenValidationParameters)
+                                  ApplicationDbContext context, TokenValidationParameters tokenValidationParameters)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -274,11 +277,22 @@ namespace Infrastructure.Identity
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            var refreshToken = new RefreshToken
+            {
+                JwtId = token.Id,
+                UserId = user.Id,
+                CreationDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(6)
+            };
+
+            await _context.RefreshTokens.AddAsync(refreshToken);
+            await _context.SaveChangesAsync();
 
             return new AuthenticationResult
             {
                 Success = true,
-                Token = tokenHandler.WriteToken(token)
+                Token = tokenHandler.WriteToken(token),
+                RefreshToken = refreshToken.Token
             };
         }
     }

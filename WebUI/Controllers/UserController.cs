@@ -79,5 +79,16 @@ namespace WebUI.Controllers
                 return NotFound();
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("Refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result.Errors);
+        }
     }
 }
