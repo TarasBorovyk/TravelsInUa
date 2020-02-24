@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Models;
+﻿using Infrastructure.Common.Interfaces;
+using Infrastructure.Common.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.User
 {
-    public class RefreshTokenCommand: IRequest<AuthenticationResult>
+    public class RefreshTokenCommand : IRequest<AuthenticationResult>
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }
@@ -24,7 +24,7 @@ namespace Application.Commands.User
             }
 
             public async Task<AuthenticationResult> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
-            { 
+            {
                 var authResponse = await _userManager.RefreshTokenAsync(request.Token, request.RefreshToken).ConfigureAwait(false);
 
                 if (!authResponse.Success)

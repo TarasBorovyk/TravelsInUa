@@ -1,5 +1,3 @@
-using Application;
-using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,13 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MediatR;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using WebUI.Options;
 using SwaggerOptions = WebUI.Options.SwaggerOptions;
+using Infrastructure.Persistance;
 
-namespace WebUI
+namespace Applicaton
 {
     public class Startup
     {
@@ -44,7 +45,7 @@ namespace WebUI
             };
             services.AddSingleton(tokenValidationParameters);
 
-            services.AddApplication();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddInfrastructure(Configuration);
             services.AddControllers();
 
@@ -57,6 +58,8 @@ namespace WebUI
                 x.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelsInUA API", Version = "v1" });
             });
 
+            services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,7 +71,7 @@ namespace WebUI
             }
 
             var swaggerOptions = new SwaggerOptions();
-            
+
             Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
 
             app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
@@ -77,6 +80,12 @@ namespace WebUI
             {
                 option.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description);
             });
+
+            app.UseCors(x => x
+                .WithOrigins("https://localhost:5001") // путь к нашему SPA клиенту
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 

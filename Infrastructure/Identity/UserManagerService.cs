@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Models;
+﻿using Infrastructure.Common.Interfaces;
+using Infrastructure.Common.Models;
 using Infrastructure.Options;
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;

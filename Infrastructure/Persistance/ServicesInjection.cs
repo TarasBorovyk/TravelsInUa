@@ -1,7 +1,9 @@
-﻿using Application.Common.Interfaces;
+﻿using Infrastructure.Common.Interfaces;
 using Infrastructure.Identity;
 using Infrastructure.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -48,7 +50,9 @@ namespace Infrastructure.Persistance
             {
                 options.SaveToken = true;
                 options.TokenValidationParameters = tokenValidationParameters;
-            });
+            }).AddCookie(IdentityConstants.ApplicationScheme)
+              .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
+              .AddExternalCookie();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(

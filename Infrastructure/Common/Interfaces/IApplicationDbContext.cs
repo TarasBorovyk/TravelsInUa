@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Common.Interfaces
+namespace Infrastructure.Common.Interfaces
 {
     public interface IApplicationDbContext
     {

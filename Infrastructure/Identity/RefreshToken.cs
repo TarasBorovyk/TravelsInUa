@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces;
+﻿using Infrastructure.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

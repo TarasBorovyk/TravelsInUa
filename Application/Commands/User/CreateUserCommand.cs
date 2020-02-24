@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Models;
+﻿using Infrastructure.Common.Interfaces;
+using Infrastructure.Common.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.User
 {
-    public class CreateUserCommand: IRequest<AuthenticationResult>
+    public class CreateUserCommand : IRequest<AuthenticationResult>
     {
         public string UserName { get; set; }
         public string Email { get; set; }

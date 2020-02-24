@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Application.Common.Models
+namespace Infrastructure.Common.Models
 {
     public class AuthenticationResult
     {
